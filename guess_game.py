@@ -32,42 +32,42 @@ def main():
     tries = 0 ##first condition for the loop to run
     playing = True ###second condition for the loop to run
     play = input("Would you like to play? Y/N: ").upper() ###asking user if they would like to play
-    if play == "N":
+    if play == "N": ###if player does not want to play, end the game
         playing == False
-    elif play == "Y":
+    elif play == "Y": ###if player does want to play the game...
         while playing:
-            category_choice = input("There are three categories to choose from. 'Pokemon', 'Movies', 'Video Games' and 'Countries'. Type in which category you would like to use?: ").title()
-            if category_choice not in CATEGORY_DICT:
+            category_choice = input("There are three categories to choose from. 'Pokemon', 'Movies', 'Video Games' and 'Countries'. Type in which category you would like to use?: ").title() ###player chooses the category to grab the random word from
+            if category_choice not in CATEGORY_DICT: ###if the 'choice' the player made is not a key in CAT_DICT above, end the game
                 print("Sorry, that was not a choice. Try playing again.")
-                playing = False
-            elif category_choice in CATEGORY_DICT:
+                playing = False ####ends loop
+            elif category_choice in CATEGORY_DICT: ### if the choice is a key in CAT_DICT...
                 print("Okay, a word has been selected for you. Time to Guess!")
-                cat_key = category_choice
-                secret_word = random_word(category_choice)
-                secret_underscore = underscore_presentation(category_choice)
-                while tries < 7:
-                    score_keep = "_"
+                cat_key = category_choice ####sets the dict key for the above random_word function to pull the random word
+                secret_word = random_word(category_choice) ####set variable secret_word to the randomly generated word from random_word function above
+                secret_underscore = underscore_presentation(category_choice) ###generates and assigns a string of underscores to the secret_underscore variable. This will be presented to the player at every instance of the below while loop
+                while tries < 7: ###while tries variable is less than 7
+                    score_keep = "_" ###variable stored to check if any more underscores are in the secret word
                     print(secret_underscore)
-                    guess = input("What is your guess?")
+                    guess = input("What is your guess?") ###player input to guess letter in word
                     if guess in secret_word:
-                        replace_ind = secret_word.index(guess)
-                        secret_underscore = secret_underscore.split()
-                        secret_underscore[replace_ind] = guess
-                        secret_underscore = ' '.join(secret_underscore)
-                    tries += 1
-                    if tries == 7:
+                        replace_ind = secret_word.index(guess) ###assigns an integer to replace_ind to be used as an index
+                        secret_underscore = secret_underscore.split() ###splits the string into a list
+                        secret_underscore[replace_ind] = guess ####replaces the value at the index with the player guess
+                        secret_underscore = ' '.join(secret_underscore) ###rejoins the list into a string with 1 less underscore, if an included letter was guessed
+                    tries += 1 ###increment tries by 1 after every loop
+                    if tries == 7: ###if tries is == 7, ask the player to make a final guess
                         first_final_guess = input(f"Please make a guess at which {category_choice} this is.: ").lower()
-                        if first_final_guess == secret_word:
+                        if first_final_guess == secret_word: ### if guess is correct
                             tries = 9
-                        else:
+                        else: ### if guess wrong
                             tries = 8
-                    if score_keep not in secret_underscore:
-                        tries = 9
-                        playing = False
-                    if tries == 9:
-                        playing = False
-                        print(f"Congratulations, you won! The secret word was {secret_word}")
-                    if tries == 8:
-                        print("It looks like you ran out of tries. Better luck next time!")
-                        playing = False           
+                    if score_keep not in secret_underscore: ##if there are no more underscores in the secret word
+                        tries = 9### tries = 9
+                        playing = False ###end loop
+                    if tries == 9: ###if tries == 9
+                        playing = False ###end loop
+                        print(f"Congratulations, you won! The secret word was {secret_word}") ###congrats, player wins
+                    if tries == 8: ###if tries == 8
+                        print("It looks like you ran out of tries. Better luck next time!") ###player loses
+                        playing = False ###end loop
 main()
